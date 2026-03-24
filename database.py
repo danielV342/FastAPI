@@ -7,7 +7,6 @@ engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = engine)
 
-# função que você perguntou 👇
 def get_db():
     db = SessionLocal()
     try:
