@@ -13,13 +13,13 @@ class Prato(BaseModel):
     id_categoria: int
     quantidade: str
 
-
+#Listar todos os pratos
 @app.get("/pratos")
 def listar(db: Session = Depends(get_db)):
     result = db.execute(text("SELECT * FROM pratos"))
     return [dict(row._mapping) for row in result]
 
-
+#Inserir um prato
 @app.post("/pratos")
 def criar_prato(prato: Prato, db: Session = Depends(get_db)):
     query = text("INSERT INTO pratos (nome, preco, descricao, id_categoria, quantidade) VALUES (:nome, :preco, :descricao, :id_categoria, :quantidade)")
@@ -33,6 +33,7 @@ def criar_prato(prato: Prato, db: Session = Depends(get_db)):
     })
     db.commit()
 
+#Buscar um prato
 @app.get('/pratos/{id_prato}')
 def get_prato(id_prato: int, db: Session = Depends(get_db)):
     query = text("SELECT * FROM pratos WHERE id_prato = :id_prato")
@@ -47,8 +48,7 @@ def get_prato(id_prato: int, db: Session = Depends(get_db)):
     
     return dict(result._mapping)
 
-
-
+#Atualizando pratos
 @app.put("/pratos/{id_prato}")
 def atualizar_prato(id_prato: int, prato: Prato, db: Session = Depends(get_db)):
     
@@ -78,7 +78,7 @@ def atualizar_prato(id_prato: int, prato: Prato, db: Session = Depends(get_db)):
 
     return {"mensagem": "Prato atualizado com sucesso"}
     
-
+#Deletando pratos
 @app.delete("/pratos/{id_prato}")
 def deletar_prato(id_prato: int, prato: Prato, db: Session = Depends(get_db)):
 
