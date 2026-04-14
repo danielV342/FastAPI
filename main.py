@@ -12,8 +12,7 @@ class Prato(BaseModel):
     descricao: str
     id_categoria: int
     quantidade: str
-
-#Listar todos os pratos
+ 
 @app.get("/pratos")
 def listar(db: Session = Depends(get_db)):
     result = db.execute(text("SELECT * FROM pratos"))
@@ -64,13 +63,19 @@ def atualizar_prato(id_prato: int, prato: Prato, db: Session = Depends(get_db)):
     query_update = text("""
         UPDATE pratos
         SET nome = :nome,
-            preco = :preco
+            preco = :preco, 
+            descricao = :descricao,
+            id_categoria = :id_categoria,
+            quantidade = :quantidade
         WHERE id_prato = :id_prato
     """)
 
     db.execute(query_update, {
         "nome": prato.nome,
         "preco": prato.preco,
+        "descricao": prato.descricao,
+        "id_categoria": prato.id_categoria,
+        "quantidade": prato.quantidade,
         "id_prato": id_prato
     })
 
